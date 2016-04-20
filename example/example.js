@@ -127,7 +127,7 @@ var App = {
 
       self.$images.sortable({
         stop: function(event, ui) {
-          var inputs = event.target.querySelectorAll('input');
+          var inputs = event.target.querySelectorAll('#images-list input[type="checkbox"]');
           var i = 0;
           for(i; i < inputs.length; i++) {
 
@@ -189,6 +189,16 @@ var App = {
               }
             });
             label.append(checkbox);
+
+            var opacity = $('<input name="opacity" type="range" min="0" max="100" value="100" step="1"/>');
+            opacity.prop('id', image.id + 'Opacity');
+
+            opacity.on('input', function() {
+              image.opacity = $(this).val()*(1/100);
+              image.updateOpacity();
+            });
+            label.append(opacity);
+
             listItem.append(label);
             listItem.prependTo(self.$images);
           }
